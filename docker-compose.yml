@@ -1,0 +1,71 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRESQL_URL=postgresql+asyncpg://postgres:password@postgres/chatdb
+      - MONGODB_URL=mongodb://mongo:27017
+      - REDIS_URL=redis://redis:6379
+      - SECRET_KEY=your-secret-key-here
+    depends_on:
+      - postgres
+      - mongo
+      - redis
+
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: chatdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  mongo:
+    image: mongo:6
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+
+  celery:
+    build: .
+    command: celery -A app.tasks.celery_tasks worker --loglevel=info
+    environment:
+      - POSTGRESQL_URL=postgresql+asyncpg://postgres:password@postgres/chatdb
+      - MONGODB_URL=mongodb://mongo:27017
+      - REDIS_URL=redis://redis:6379
+      - SECRET_KEY=your-secret-key-here
+    depends_on:
+      - postgres
+      - mongo
+      - redis
+
+  celery-beat:
+    build: .
+    command: celery -A app.tasks.celery_tasks beat --loglevel=info
+    environment:
+      - POSTGRESQL_URL=postgresql+asyncpg://postgres:password@postgres/chatdb
+      - MONGODB_URL=mongodb://mongo:27017
+      - REDIS_URL=redis://redis:6379
+      - SECRET_KEY=your-secret-key-here
+    depends_on:
+      - postgres
+      - mongo
+      - redis
+
+volumes:
+  postgres_data:
+  mongo_data:
+  redis_data: 

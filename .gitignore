@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.env
+.env.*
+
+# VSCode
+.vscode/
+
+# Docker
+*.db
+docker-compose.override.yml
+
+# Test
+htmlcov/
+.coverage
+.cache/
+
+# OS
+.DS_Store
+Thumbs.db 
+
+frontend/
