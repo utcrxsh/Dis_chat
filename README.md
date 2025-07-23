@@ -1,6 +1,6 @@
 #  Distributed Chat Application
 
-A real-time chat application built with modern backend technologies. This project demonstrates scalable architecture, real-time communication, and production-ready practices.
+A real-time chat application build with production ready focus.
 
 ##  Tech Stack
 
