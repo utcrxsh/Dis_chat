@@ -61,7 +61,7 @@ MONGODB_URL=mongodb://localhost:27017
 REDIS_URL=redis://localhost:6379
 
 # JWT Settings
-SECRET_KEY=your-super-secret-key-here
+SECRET_KEY=ilikechocolava
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 
